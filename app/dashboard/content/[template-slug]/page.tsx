@@ -40,16 +40,36 @@ const generateAIcontent= async(FormData:any)=>{
 
 }
 
-const saveInDb=async(FormData:any,slug:any,aiResp:string)=>{
-  const result = await db.insert(AIOutput).values({
-    FormData:FormData,
-    templateSlug:slug,
-    aiResponse:aiResp,
-    createdBy:user?.primaryEmailAddress?.emailAddress,
-    createdAt:moment().format('DD/MM/yyyy')
-  })
-  console.log(result)
-}
+// const saveInDb=async(FormData:any,slug:any,aiResp:string)=>{
+//   const result = await db.insert(AIOutput).values({
+//     FormData:FormData,
+//     templateSlug:slug,
+//     aiResponse:aiResp,
+//     createdBy:user?.primaryEmailAddress?.emailAddress,
+//     createdAt:moment().format('DD/MM/yyyy')
+//   })
+//   console.log(result)
+// }
+
+const saveInDb = async (FormData: any, slug: any, aiResp: string) => {
+  try {
+    const dataToInsert = {
+      FormData,
+      templateSlug: slug,
+      aiResponse: aiResp,
+      createdBy: user?.primaryEmailAddress?.emailAddress || "Anonymous",
+      createdAt: moment().format('YYYY-MM-DD'), // Standard date format for most databases
+    };
+
+    console.log("Data to insert:", dataToInsert);
+
+    const result = await db.insert(AIOutput).values(dataToInsert);
+    console.log("Insert result:", result);
+  } catch (error) {
+    console.error("Error saving to database:", error);
+  }
+};
+
 
   return (
     

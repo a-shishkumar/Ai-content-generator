@@ -40,6 +40,23 @@ import { Copy } from 'lucide-react';
 // export default OutputSection
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 interface props{
   aiOutput:string
 }
