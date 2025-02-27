@@ -61,12 +61,21 @@ interface props{
   aiOutput:string
 }
 const OutputSection = ({aiOutput}:props) => {
-  const editorRef:any=useRef();
+  // const editorRef:any=useRef();
+  const editorRef = useRef<Editor | null>(null);
 
-  useEffect(()=>{
-    const editorInstance=editorRef.current.getInstance();
-    editorInstance.setMarkdown(aiOutput);
-  },[aiOutput])
+
+  // useEffect(()=>{
+  //   const editorInstance=editorRef.current.getInstance();
+  //   editorInstance.setMarkdown(aiOutput);
+  // },[aiOutput])
+  useEffect(() => {
+    if (editorRef.current) {
+      const editorInstance = editorRef.current.getInstance();
+      editorInstance.setMarkdown(aiOutput);
+    }
+  }, [aiOutput]);
+  
   return (
     <div className='bg-white shadow-lg border rounded-lg'>
       <div className='flex justify-between items-center p-5'>
@@ -78,9 +87,18 @@ const OutputSection = ({aiOutput}:props) => {
       // initialValue="Your result will appear here."
      
       height='600px'
-      initalEditType="wysiwyg"
-      useCommandShortcut={true}
-      onChange={()=>console.log(editorRef.current.getInstance().getMarkdown())}
+      initialEditType="wysiwyg"
+
+      // useCommandShortcut={true}
+      useCommandShortcut
+
+      // onChange={()=>console.log(editorRef.current.getInstance().getMarkdown())}
+      onChange={() => 
+        // console.log(editorRef.current.getInstance().getMarkdown())
+        console.log(editorRef.current?.getInstance().getMarkdown())
+      } 
+      
+
       />
     </div>
   )
